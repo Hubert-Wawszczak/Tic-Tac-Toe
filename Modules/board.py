@@ -22,7 +22,7 @@ class Board():
         self.shapes = [[Shape(0,0,0) for j in range(3)] for i in range(3)]
         self.game_over = False
         """Shape circle 1 cross 2"""
-        self.shape = 2
+        self.shape = 1
 
         """Board"""
         pygame.display.set_caption("Tic Tac Toe")
@@ -32,7 +32,7 @@ class Board():
         pygame.draw.circle(self.display_game,self.white,(x,y),self.width/3/2)
 
     def draw_cross(self,x,y):
-        pygame.draw.lines(self.display_game,self.white,True,[(x+(self.width/3/2),y+self.hight/3/2),(x-(self.width/3),y-(self.hight/3))])
+        pygame.draw.lines(self.display_game,self.white,True,[(x+(self.width/3/2),y+self.hight/3/2),(x-(self.width/3/2),y-(self.hight/3/2))])
         pygame.draw.lines(self.display_game, self.white, True,[((x-(self.width/3/2)),y+self.hight/3/2),(x+self.width/3/2,y-(self.hight/3)/2)])
 
     def draw_shape(self,type,x,y):
@@ -41,12 +41,36 @@ class Board():
         if type == 2:
             self.draw_cross(x,y)
 
+    def control_shape(self):
+        if self.shape == 2:
+            self.shape = 1
+        elif self.shape == 1:
+            self.shape = 2
+
     def verify_part(self,x,y):
-        if x > 0 and x < self.width * 33 / 100 and y > 0 and y < self.hight * 33 / 100:
+        if x > 0 and x < self.width * 33 / 100 and y > 0 and y < self.hight * 33 / 100 and self.shapes[0][0].type == 0:
             self.shapes[0][0].__init__(self.shape,self.width * 33 / 100 / 2,self.hight * 33 / 100 / 2)
-        if x > self.width * 33 / 100 and x < self.width * 66 / 100 and y > 0 and y < self.hight * 33 / 100:
+        if x > self.width * 33 / 100 and x < self.width * 66 / 100 and y > 0 and y < self.hight * 33 / 100 and self.shapes[0][1].type == 0:
             self.shapes[0][1].__init__(self.shape, self.width/2 ,self.hight * 33 / 100 / 2)
-            print(self.shapes[0][1].x,self.shapes[0][1].y)
+        if x > self.width * 66 / 100 and x < self.width and y > 0 and y < self.hight * 33 / 100 and self.shapes[0][2].type == 0:
+            self.shapes[0][2].__init__(self.shape, self.width - self.width /3/2 ,self.hight * 33 / 100 / 2)
+
+        if x > 0 and x < self.width * 33 / 100 and y > self.hight*33 /100 and y < self.hight * 66 / 100 and self.shapes[1][0].type == 0:
+            self.shapes[1][0].__init__(self.shape,self.width * 33 / 100 / 2,self.hight / 2)
+        if x > self.width * 33 / 100 and x < self.width * 66 / 100 and y > self.hight*33/100 and y < self.hight * 66 / 100 and self.shapes[1][1].type == 0:
+            self.shapes[1][1].__init__(self.shape, self.width/2 ,self.hight / 2)
+        if x > self.width * 66 / 100 and x < self.width and y > self.hight*33/100 and y < self.hight * 66 / 100 and self.shapes[1][2].type == 0:
+            self.shapes[1][2].__init__(self.shape, self.width - self.width /3/2 ,self.hight /2)
+
+        if x > 0 and x < self.width * 33 / 100 and y > self.hight*66 /100 and y < self.hight and self.shapes[2][0].type == 0:
+            self.shapes[2][0].__init__(self.shape,self.width * 33 / 100 / 2,self.hight -self.hight/3/2)
+        if x > self.width * 33 / 100 and x < self.width * 66 / 100 and y > self.hight*66/100 and y < self.hight and self.shapes[2][1].type == 0:
+            self.shapes[2][1].__init__(self.shape, self.width/2 ,self.hight -self.hight/3/ 2)
+        if x > self.width * 66 / 100 and x < self.width and y > self.hight*66/100 and y < self.hight and self.shapes[2][2].type == 0:
+            self.shapes[2][2].__init__(self.shape, self.width - self.width /3/2 ,self.hight - self.hight/3/2)
+
+        self.control_shape()
+
 
     def game_over(self):
         self.game_over = True
