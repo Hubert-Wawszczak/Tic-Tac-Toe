@@ -3,6 +3,7 @@
 import sys
 from Modules.shape import *
 import pygame
+import pygame_menu
 from pygame.locals import *
 pygame.init()
 
@@ -23,6 +24,8 @@ class Board():
         self.game_over = False
         """Shape circle 1 cross 2"""
         self.shape = 1
+        """1 vs 2 cpu"""
+        self.game_type = 1
 
         """Board"""
         pygame.display.set_caption("Tic Tac Toe")
@@ -77,6 +80,33 @@ class Board():
         pygame.display.quit()
         sys.exit()
 
+    def set_game_type(self,value,game_type):
+        self.game_type = value
+
+    def menu(self):
+        menu = pygame_menu.Menu('Tic Tac Toe',self.width/2,self.hight/2,theme=pygame_menu.themes.THEME_BLUE)
+        menu.add.selector('Rodzaj gry: ',[("Vs",1),("CPU",2)], onchange=self.set_game_type)
+        menu.add.button('Play', self.update_window())
+        menu.add.button('Quit', pygame_menu.events.EXIT)
+        menu.mainloop(self.display_game)
+
+
+
+    def verify_win_condition(self):
+        """Awful"""
+        for i in range(3):
+            if self.shapes[i][0].type == self.shapes[i][1].type == self.shapes[i][2].type and self.shapes[i][0].type !=0 and self.shapes[i][1].type !=0 and self.shapes[i][2].type !=0:
+               self.menu()
+            if self.shapes[0][i].type == self.shapes[1][i].type == self.shapes[2][i].type and self.shapes[0][
+                i].type != 0 and self.shapes[1][i].type != 0 and self.shapes[2][i].type != 0:
+                self.menu()
+        if self.shapes[0][0].type == self.shapes[1][1].type == self.shapes[2][2].type and self.shapes[0][
+            0].type != 0 and self.shapes[1][1].type != 0 and self.shapes[2][2].type != 0:
+            self.menu()
+        if self.shapes[0][2].type == self.shapes[1][1].type == self.shapes[2][0].type and self.shapes[0][
+            2].type != 0 and self.shapes[1][1].type != 0 and self.shapes[2][0].type != 0:
+            self.menu()
+
     def update_window(self):
         while not self.game_over:
             for event in pygame.event.get():
@@ -85,6 +115,7 @@ class Board():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     print(pygame.mouse.get_pos())
                     self.verify_part(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1])
+                    self.verify_win_condition()
 
             self.display_game.fill(self.grey)
             pygame.draw.lines(self.display_game, self.white,True,[(self.width*33/100,0),(self.width*33/100,self.hight)])

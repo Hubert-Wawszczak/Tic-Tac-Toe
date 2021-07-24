@@ -6,4 +6,4 @@ from Modules.board import *
 
 if __name__ == "__main__":
     board = Board()
-    board.update_window()
+    board.menu()
