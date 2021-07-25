@@ -1,4 +1,6 @@
-#!/usr/bin/python3
+#!/usr/bin/pyt
+#
+# hon3
 # -*- coding: utf-8 -*-
 
 from Modules.board import *
