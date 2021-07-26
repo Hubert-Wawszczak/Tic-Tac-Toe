@@ -76,21 +76,22 @@ class Board():
 
 
 
-    def rerun_game(self):
-        self.update_window()
-
-
     def set_game_type(self,value,game_type):
         self.game_type = value
+        print(self.game_type[1])
+        pass
 
     def menu(self):
         menu = pygame_menu.Menu('Tic Tac Toe',self.width/2,self.hight/2,theme=pygame_menu.themes.THEME_BLUE)
         menu.add.selector('Rodzaj gry: ',[("Vs",1),("CPU",2)], onchange=self.set_game_type)
-        menu.add.button('Play', self.rerun_game())
+        menu.add.button('Play', self.rerun_game)
         menu.add.button('Quit', pygame_menu.events.EXIT)
         menu.mainloop(self.display_game)
 
-
+    def rerun_game(self):
+        self.__init__()
+        self.update_window()
+        pass
 
     def verify_win_condition(self):
         """Awful"""
